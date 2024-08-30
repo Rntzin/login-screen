@@ -63,26 +63,14 @@ const Home = () => {
           icon={AiOutlineMail}
           msgError={errors.email?.message}
           {...register("email")}
+          placeholder="Type your mail"
         />
-
-        <FormControl isInvalid={!!errors.email}>
-          <FormLabel color={!!errors.email ? "red.500" : "white"}>
-            {!!errors.email ? errors.email.message : "Email"}
-          </FormLabel>
-          <InputGroup>
-            <InputLeftElement>
-              <Icon as={AiOutlineKey} />
-            </InputLeftElement>
-            <Input
-              type="password"
-              placeholder="Type your password"
-              {...register("password")}
-            />
-            <InputRightAddon _hover={{ cursor: "pointer" }}>
-              <Icon as={AiOutlineEye} />
-            </InputRightAddon>
-          </InputGroup>
-        </FormControl>
+        <BaseInput
+          icon={AiOutlineKey}
+          msgError={errors.password?.message}
+          {...register("password")}
+          placeholder="Type your password"
+        />
         <Button _hover={{ opacity: 0.6 }} bg="red" color="white" type="submit">
           Submit
         </Button>

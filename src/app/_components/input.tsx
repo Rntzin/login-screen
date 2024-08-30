@@ -19,8 +19,8 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
   ({ icon, msgError = "", type, ...rest }, ref) => {
     return (
       <FormControl isInvalid={!!msgError}>
-        <FormLabel color={!!msgError ? "red.500" : "white"}>
-          {!!msgError ? msgError : "Email"}
+        <FormLabel color={!!msgError ? "red.500" : "gray"}>
+          {!!msgError ? msgError : type}
         </FormLabel>
         <InputGroup>
           <InputLeftElement>
