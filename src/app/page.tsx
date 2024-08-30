@@ -18,7 +18,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { AiOutlineEye, AiOutlineKey, AiOutlineMail } from "react-icons/ai";
-import { useState } from "react";
 import { BaseInput } from "./_components/input";
 
 const schema = z.object({
@@ -29,12 +28,6 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const Home = () => {
-  const [seePassword, setSeePasssword] = useState(false);
-
-  const toggleSeePassword = () => {
-    setSeePasssword(!seePassword);
-  };
-
   const {
     register,
     handleSubmit,
@@ -60,17 +53,18 @@ const Home = () => {
     >
       <Flex gap={4} direction="column" w="40%" h="auto">
         <BaseInput
+          type={"Email"}
           icon={AiOutlineMail}
           msgError={errors.email?.message}
           {...register("email")}
-          placeholder="Type your mail"
         />
         <BaseInput
+          type="Password"
           icon={AiOutlineKey}
           msgError={errors.password?.message}
           {...register("password")}
-          placeholder="Type your password"
         />
+
         <Button _hover={{ opacity: 0.6 }} bg="red" color="white" type="submit">
           Submit
         </Button>
