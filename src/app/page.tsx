@@ -9,13 +9,17 @@ import {
   FormControl,
   FormLabel,
   Icon,
+  IconButton,
   Input,
   InputGroup,
   InputLeftAddon,
   InputLeftElement,
+  InputRightAddon,
   Text,
 } from "@chakra-ui/react";
-import { AiOutlineKey, AiOutlineMail } from "react-icons/ai";
+import { AiOutlineEye, AiOutlineKey, AiOutlineMail } from "react-icons/ai";
+import { useState } from "react";
+import { BaseInput } from "./_components/input";
 
 const schema = z.object({
   email: z.string().email("must be a valid email").nonempty("required"),
@@ -25,6 +29,12 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const Home = () => {
+  const [seePassword, setSeePasssword] = useState(false);
+
+  const toggleSeePassword = () => {
+    setSeePasssword(!seePassword);
+  };
+
   const {
     register,
     handleSubmit,
@@ -49,21 +59,12 @@ const Home = () => {
       justify="center"
     >
       <Flex gap={4} direction="column" w="40%" h="auto">
-        <FormControl isInvalid={!!errors.email}>
-          <FormLabel color={!!errors.email ? "red.500" : "white"}>
-            {!!errors.email ? errors.email.message : "Email"}
-          </FormLabel>
-          <InputGroup>
-            <InputLeftElement>
-              <Icon as={AiOutlineMail} />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Type your mail"
-              {...register("email")}
-            />
-          </InputGroup>
-        </FormControl>
+        <BaseInput
+          icon={AiOutlineMail}
+          msgError={errors.email?.message}
+          {...register("email")}
+        />
+
         <FormControl isInvalid={!!errors.email}>
           <FormLabel color={!!errors.email ? "red.500" : "white"}>
             {!!errors.email ? errors.email.message : "Email"}
@@ -77,6 +78,9 @@ const Home = () => {
               placeholder="Type your password"
               {...register("password")}
             />
+            <InputRightAddon _hover={{ cursor: "pointer" }}>
+              <Icon as={AiOutlineEye} />
+            </InputRightAddon>
           </InputGroup>
         </FormControl>
         <Button _hover={{ opacity: 0.6 }} bg="red" color="white" type="submit">
