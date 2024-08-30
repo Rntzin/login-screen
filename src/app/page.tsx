@@ -1,95 +1,115 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Icon,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  InputLeftElement,
+  Text,
+} from "@chakra-ui/react";
+import { AiOutlineKey, AiOutlineMail } from "react-icons/ai";
+
+const schema = z.object({
+  email: z.string().email("must be a valid email").nonempty("required"),
+  password: z.string().nonempty("required"),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+const Home = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit = (data: FormValues) => {
+    const { email, password } = data;
+
+    console.log({ email, password });
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <Flex
+      onSubmit={handleSubmit(onSubmit)}
+      as="form"
+      h="100vh"
+      w="100vw"
+      align="center"
+      justify="center"
+    >
+      <Flex gap={4} direction="column" w="40%" h="auto">
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel color={!!errors.email ? "red.500" : "white"}>
+            {!!errors.email ? errors.email.message : "Email"}
+          </FormLabel>
+          <InputGroup>
+            <InputLeftElement>
+              <Icon as={AiOutlineMail} />
+            </InputLeftElement>
+            <Input
+              type="text"
+              placeholder="Type your mail"
+              {...register("email")}
             />
-          </a>
-        </div>
-      </div>
+          </InputGroup>
+        </FormControl>
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel color={!!errors.email ? "red.500" : "white"}>
+            {!!errors.email ? errors.email.message : "Email"}
+          </FormLabel>
+          <InputGroup>
+            <InputLeftElement>
+              <Icon as={AiOutlineKey} />
+            </InputLeftElement>
+            <Input
+              type="password"
+              placeholder="Type your password"
+              {...register("password")}
+            />
+          </InputGroup>
+        </FormControl>
+        <Button _hover={{ opacity: 0.6 }} bg="red" color="white" type="submit">
+          Submit
+        </Button>
+      </Flex>
+    </Flex>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    // <form onSubmit={handleSubmit(formSent)} className={styles.form}>
+    //   <div className={styles.description1}>
+    //     <h1>Email</h1>
+    //     <input
+    //       id="input1"
+    //       type="text"
+    //       placeholder="Digite seu Email"
+    //       {...register("input1", { required: "Este campo é obrigatório" })}
+    //     />
+    //   </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    //   <div className={styles.description2}>
+    //     <h1>Senha</h1>
+    //     <input
+    //       id="input2"
+    //       type="text"
+    //       placeholder="Mínimo 6 caracteres"
+    //       {...register("input2", { required: "Este campo é obrigatório" })}
+    //     />
+    //   </div>
+    //   {errors.input2 && <p>{errors.input2.message}</p>}
+    //   <input type="text" placeholder="Senha" />
+    //   <button type="submit">Enviar</button>
+    // </form>
   );
-}
+};
+
+export default Home;
