@@ -26,7 +26,8 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
       setSeePasssword(!seePassword);
     };
 
-    const inputType = seePassword ? "text" : "password";
+    const inputType =
+      type === "password" ? (seePassword ? "text" : "password") : type;
 
     return (
       <FormControl isInvalid={!!msgError}>

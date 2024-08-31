@@ -31,6 +31,7 @@ const Home = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -40,6 +41,7 @@ const Home = () => {
     const { email, password } = data;
 
     console.log({ email, password });
+    reset();
   };
 
   return (
@@ -53,7 +55,7 @@ const Home = () => {
     >
       <Flex gap={4} direction="column" w="40%" h="auto">
         <BaseInput
-          type={"Email"}
+          type="Email"
           icon={AiOutlineMail}
           msgError={errors.email?.message}
           {...register("email")}
