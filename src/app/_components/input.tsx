@@ -39,17 +39,16 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
             <Icon as={icon} />
           </InputLeftElement>
 
-          {type === "Password" && (
+          {type === "password" && (
             <InputRightElement>
               <IconButton
-                aria-label={seePassword ? "Hide Password" : "Show Password"}
+                aria-label={seePassword ? "Hide password" : "Show password"}
                 icon={seePassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                 onClick={toggleSeePassword}
                 bg="none"
               />
             </InputRightElement>
           )}
-
           <ChakraInput
             placeholder={`Type your ${type}`}
             {...rest}

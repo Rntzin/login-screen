@@ -17,8 +17,10 @@ import {
   InputRightAddon,
   Text,
 } from "@chakra-ui/react";
+import { loginUser } from "./api";
 import { AiOutlineEye, AiOutlineKey, AiOutlineMail } from "react-icons/ai";
 import { BaseInput } from "./_components/input";
+import { useState } from "react";
 
 const schema = z.object({
   email: z.string().email("must be a valid email").nonempty("required"),
@@ -28,6 +30,8 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const Home = () => {
+  const [error, setError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -37,11 +41,18 @@ const Home = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormValues) => {
-    const { email, password } = data;
-
-    console.log({ email, password });
-    reset();
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const response = await loginUser(data.email, data.password);
+      console.log("Login bem-sucedido:", response);
+      // Redirecione ou atualize o estado conforme necessário
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Erro desconhecido");
+      }
+    }
   };
 
   return (
@@ -55,13 +66,13 @@ const Home = () => {
     >
       <Flex gap={4} direction="column" w="40%" h="auto">
         <BaseInput
-          type="Email"
+          type="email"
           icon={AiOutlineMail}
           msgError={errors.email?.message}
           {...register("email")}
         />
         <BaseInput
-          type="Password"
+          type="password"
           icon={AiOutlineKey}
           msgError={errors.password?.message}
           {...register("password")}
@@ -70,6 +81,7 @@ const Home = () => {
         <Button _hover={{ opacity: 0.6 }} bg="red" color="white" type="submit">
           Submit
         </Button>
+        {error && <Text color="red.500">{error}</Text>}
       </Flex>
     </Flex>
 
