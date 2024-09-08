@@ -1,5 +1,7 @@
 "use client";
 
+import { setCookie } from "nookies";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,6 +24,7 @@ import { AiOutlineEye, AiOutlineKey, AiOutlineMail } from "react-icons/ai";
 import { BaseInput } from "./_components/input";
 import { useState } from "react";
 import { useUser } from "./authenticate/usecontext";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string().email("must be a valid email").nonempty("required"),
@@ -31,6 +34,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const Home = () => {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -55,6 +59,11 @@ const Home = () => {
       });
 
       console.log({ user, token: response.token });
+      setCookie(null, "token", response.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+      });
+      router.push("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
