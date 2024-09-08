@@ -21,6 +21,7 @@ import { loginUser } from "./api";
 import { AiOutlineEye, AiOutlineKey, AiOutlineMail } from "react-icons/ai";
 import { BaseInput } from "./_components/input";
 import { useState } from "react";
+import { useUser } from "./authenticate/usecontext";
 
 const schema = z.object({
   email: z.string().email("must be a valid email").nonempty("required"),
@@ -40,6 +41,8 @@ const Home = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
+
+  const { email, setUserEmail } = useUser();
 
   const onSubmit = async (data: FormValues) => {
     try {
