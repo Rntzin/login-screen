@@ -38,7 +38,12 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           <InputLeftElement>
             <Icon as={icon} />
           </InputLeftElement>
-
+          <ChakraInput
+            placeholder={`Type your ${type}`}
+            {...rest}
+            ref={ref}
+            type={inputType}
+          />
           {type === "password" && (
             <InputRightElement>
               <IconButton
@@ -49,12 +54,6 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
               />
             </InputRightElement>
           )}
-          <ChakraInput
-            placeholder={`Type your ${type}`}
-            {...rest}
-            ref={ref}
-            type={inputType}
-          />
         </InputGroup>
       </FormControl>
     );

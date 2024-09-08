@@ -1,8 +1,14 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
+export interface IUser {
+  _id: string;
+  email: string;
+  name: string;
+}
+
 interface UserContextType {
-  email: string | null;
-  setUserEmail: (email: string | null) => void;
+  user: IUser | null;
+  setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -12,14 +18,10 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [email, setEmail] = useState<string | null>(null);
-
-  const setUserEmail = (newEmail: string | null) => {
-    setEmail(newEmail);
-  };
+  const [user, setUser] = useState<IUser | null>(null);
 
   return (
-    <UserContext.Provider value={{ email, setUserEmail }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

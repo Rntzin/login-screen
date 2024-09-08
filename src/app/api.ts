@@ -9,7 +9,7 @@ export const loginUser = async (email: string, password: string) => {
       email,
       password,
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(error.response?.data?.message || "Erro ao fazer login");

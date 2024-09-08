@@ -42,13 +42,19 @@ const Home = () => {
     resolver: zodResolver(schema),
   });
 
-  const { email, setUserEmail } = useUser();
+  const { setUser, user } = useUser();
 
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await loginUser(data.email, data.password);
-      console.log("Login bem-sucedido:", response);
-      // Redirecione ou atualize o estado conforme necessário
+
+      setUser({
+        email: response.user.email,
+        name: response.user.name,
+        _id: response.user._id,
+      });
+
+      console.log({ user, token: response.token });
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
