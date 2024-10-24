@@ -25,7 +25,7 @@ Esta aplicação oferece uma tela de login simples e funcional, onde os usuário
 - **React** com **TypeScript** para construção da interface.
 - **Chakra UI** para estilização e design responsivo.
 - **React Hook Form** para gerenciamento de formulários.
-- **Yup** para validação de campos do formulário.
+- **Zod** para validação de campos do formulário.
 - **JWT** (JSON Web Token) para autenticação segura.
 
 ## Instalação e Configuração
